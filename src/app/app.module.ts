@@ -10,9 +10,12 @@ import { EmployeesComponent } from './employees/employees.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { EditEmployeeModalComponent } from './edit-employee-modal/edit-employee-modal.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
-  declarations: [AppComponent, EmployeesComponent, EditEmployeeModalComponent],
+  declarations: [AppComponent, EmployeesComponent, EditEmployeeModalComponent, LoginComponent,
+    RegisterComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, FormsModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],

@@ -4,7 +4,8 @@ import { Employee } from '../models/employee.model';
 import { NgForm } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { EditEmployeeModalComponent } from '../edit-employee-modal/edit-employee-modal.component';
-
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-employees',
@@ -15,7 +16,8 @@ export class EmployeesComponent implements OnInit {
   @ViewChild('employeeForm') employeeForm!: NgForm;
   employees: Employee[] = [];
 
-  constructor(private employeeService: EmployeeService, private modalController: ModalController) { }
+  constructor(private employeeService: EmployeeService, private modalController: ModalController,private authService: AuthService,
+  private router: Router ) { }
 
   ngOnInit() {
     this.loadEmployees();
@@ -28,7 +30,6 @@ export class EmployeesComponent implements OnInit {
   }
 
   addEmployee(employeeData: Employee) {
-    // If your backend generates the id, you might not need to include it here
     const newEmployee = {...employeeData, materialAssigned: []};
     this.employeeService.addEmployee(newEmployee as Employee).subscribe(() => {
       this.loadEmployees();
@@ -38,7 +39,7 @@ export class EmployeesComponent implements OnInit {
 
   updateEmployee(employee: Employee) {
     this.employeeService.updateEmployee(employee).subscribe(() => {
-      this.loadEmployees(); // Reload the list
+      this.loadEmployees();
     });
   }
 
@@ -61,24 +62,10 @@ export class EmployeesComponent implements OnInit {
       this.updateEmployee(data.updatedEmployee);
     }
   }
-  // async editEmployee(employee: Employee) {
-  //   const modal = await this.modalController.create({
-  //     component: EditEmployeeModalComponent,
-  //     componentProps: {
-  //       employee: employee
-  //     }
-  //   });
-  
-  //   await modal.present();
-  
-  //   const { data } = await modal.onWillDismiss();
-  //   if (data) {
-  //     // Handle the updated data, e.g., call a service method to update the data
-  //   }
-  // }
-  // editEmployee(employee: Employee) {
-  //   // TODO: Implement the logic to edit an employee
-  //   console.log('Edit functionality not yet implemented');
-  // }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
 }
 
